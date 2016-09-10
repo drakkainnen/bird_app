@@ -12,19 +12,20 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import pl.server.birds.BirdApp;
+import pl.server.birds.exceptions.CustomException;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = BirdApp.class, webEnvironment = WebEnvironment.DEFINED_PORT, properties = "server.port=5555")
+@SpringBootTest(classes = BirdApp.class, //
+		webEnvironment = WebEnvironment.DEFINED_PORT, //
+		properties = "server.port=5555")
 public class BirdRestServiceTest {
 
-	private static final String ADDRESS_URL = "/services/rest";
 	private static final String BASE_SERVICE_URL = "http://localhost:5555/services/rest";
 
 	@Before
 	public void setup() {
-		RestAssured.baseURI = "http://localhost:5555/services/rest";
+		RestAssured.baseURI = BASE_SERVICE_URL;
 	}
 
 	@Test
@@ -33,10 +34,9 @@ public class BirdRestServiceTest {
 		// given when
 		String response = RestAssured.expect() //
 				.statusCode(Status.OK.getStatusCode()) //
-				.contentType(ContentType.TEXT) //
 				.when() //
 				.get("/bird") //
-				.thenReturn().as(String.class);
+				.thenReturn().asString();
 
 		// then
 		assertThat(response).isEqualTo("dupa");
@@ -50,6 +50,22 @@ public class BirdRestServiceTest {
 				.statusCode(Status.NOT_FOUND.getStatusCode()) //
 				.when() //
 				.get("/people"); //
+
+	}
+
+	@Test
+	public void shouldRecieveServerFault() {
+
+		// given when
+		CustomException exception = RestAssured.expect() //
+				.statusCode(Status.INTERNAL_SERVER_ERROR.getStatusCode()) //
+				.log().body() //
+				.when() //
+				.get("/bird/brocken") //
+				.as(CustomException.class); //
+
+		// then
+		assertThat(exception).isEqualTo("dupadupa");
 
 	}
 

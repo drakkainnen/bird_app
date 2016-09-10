@@ -4,9 +4,10 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Service;
 
+import pl.server.birds.exceptions.CustomException;
 import pl.server.birds.rest.api.BirdRestService;
 
-@Service(value = "birdRestService")
+@Service
 public class BirdRestServiceImpl implements BirdRestService {
 
 	@Override
@@ -17,6 +18,11 @@ public class BirdRestServiceImpl implements BirdRestService {
 	@Override
 	public String getBirdName(long id) {
 		return Long.toHexString(id);
+	}
+
+	@Override
+	public String getBrocken() {
+		throw new CustomException("dupadupa");
 	}
 
 }

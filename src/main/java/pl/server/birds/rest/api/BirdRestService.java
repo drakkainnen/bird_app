@@ -15,4 +15,7 @@ public interface BirdRestService {
 	@Path("/name/{id}")
 	String getBirdName(@PathParam("id") long id);
 
+	@GET
+	@Path("/brocken")
+	String getBrocken();
 }

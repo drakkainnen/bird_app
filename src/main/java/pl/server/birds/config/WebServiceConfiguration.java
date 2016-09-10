@@ -17,6 +17,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+
+import pl.server.birds.exceptions.CustomApplicationExceptionMapper;
+
 @Configuration
 public class WebServiceConfiguration {
 
@@ -28,6 +32,16 @@ public class WebServiceConfiguration {
 
 	@Autowired
 	private Bus bus;
+
+	@Bean
+	public JacksonJsonProvider getJacksonProvider() {
+		return new JacksonJsonProvider();
+	}
+
+	@Bean
+	public CustomApplicationExceptionMapper getExceptionMapper() {
+		return new CustomApplicationExceptionMapper();
+	}
 
 	@Bean
 	public Server getJaxRsServer() {
