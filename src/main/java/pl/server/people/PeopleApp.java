@@ -10,10 +10,10 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = { "pl.server.people", "pl.server.birds.config" })
 public class PeopleApp {
 
-	private static final Logger log = LoggerFactory.getLogger(PeopleApp.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PeopleApp.class);
 
 	public static void main(String[] args) {
-		log.debug("Starting application");
+		LOG.debug("Starting application");
 		SpringApplication.run(PeopleApp.class);
 	}
 }

@@ -2,6 +2,7 @@ package pl.server.birds.config;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.ext.Provider;
@@ -19,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebServiceConfiguration {
 
-	private static final Logger log = LoggerFactory.getLogger(WebServiceConfiguration.class);
+	private static final Logger LOG = LoggerFactory.getLogger(WebServiceConfiguration.class);
 	private static final String ADDRESS_URL = "/rest";
 
 	@Autowired
@@ -32,8 +33,13 @@ public class WebServiceConfiguration {
 	public Server getJaxRsServer() {
 		Collection<Object> restServices = this.applicationContext.getBeansWithAnnotation(Path.class).values();
 		if (restServices.isEmpty()) {
-			log.info("No REST Services have been found. Rest Endpint will not be enabled in CXF");
+			LOG.info("No REST Services have been found. Rest Endpint will not be enabled in CXF");
 			return null;
+		} else {
+			String services = restServices.stream() //
+					.map(e -> e.getClass().getSimpleName().toString()) //
+					.collect(Collectors.joining(", "));
+			LOG.info(services);
 		}
 
 		Collection<Object> providers = applicationContext.getBeansWithAnnotation(Provider.class).values();
@@ -43,6 +49,7 @@ public class WebServiceConfiguration {
 		factory.setServiceBeans(new ArrayList<>(restServices));
 		factory.setProviders(new ArrayList<>(providers));
 
+		LOG.debug(factory.getAddress());
 		return factory.create();
 	}
 
