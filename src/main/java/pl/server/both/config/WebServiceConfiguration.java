@@ -1,4 +1,4 @@
-package pl.server.birds.config;
+package pl.server.both.config;
 
 import java.util.ArrayList;
 import java.util.Collection;

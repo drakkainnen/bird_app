@@ -1,19 +1,20 @@
 package pl.server.birds.rest.api;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
 
 @Path("/bird")
-public interface BirdRestService {
+public interface BirdRestService extends RestService {
 
 	@GET
-	Response hello();
+	List<String> getAllBirds();
 
-	@GET
-	@Path("/name/{id}")
-	String getBirdName(@PathParam("id") long id);
+	@POST
+	@Path("/by-person-name")
+	String getBirdByPeronName(String name);
 
 	@GET
 	@Path("/brocken")

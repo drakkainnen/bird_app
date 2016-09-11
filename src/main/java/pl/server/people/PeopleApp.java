@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "pl.server.people", "pl.server.birds.config" })
+@ComponentScan(basePackages = { "pl.server.people", "pl.server.both" })
 public class PeopleApp {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PeopleApp.class);
