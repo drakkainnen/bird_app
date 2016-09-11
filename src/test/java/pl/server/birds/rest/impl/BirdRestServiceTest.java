@@ -65,7 +65,7 @@ public class BirdRestServiceTest {
 				.as(CustomException.class); //
 
 		// then
-		assertThat(exception).isEqualTo("dupadupa");
+		assertThat(exception.getMessage()).isEqualTo("dupadupa");
 
 	}
 
